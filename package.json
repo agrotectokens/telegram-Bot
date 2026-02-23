@@ -1,0 +1,13 @@
+{
+  "name": "karla-agrotec-bot",
+  "version": "1.0.0",
+  "description": "Karla Bot - Corporacion Agrotec Peru",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "axios": "^1.6.0"
+  }
+}

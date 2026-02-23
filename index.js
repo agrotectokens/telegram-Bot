@@ -185,4 +185,4 @@ app.post('/webhook', async (req, res) => {
 app.get('/', (req, res) => res.send('Karla Bot - Agrotec Peru - OK'));
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console
+app.listen(PORT, () => console.log(`Karla corriendo en puerto ${PORT}`));

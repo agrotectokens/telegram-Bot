@@ -138,6 +138,9 @@ app.post('/webhook', async (req, res) => {
       const user = getUser(chatId);
       user.lang  = lang;
       user.visto = true;
+      const cbUsername = cb.from.username || '';
+      await logSheets('evento', { chatId, nombre, tipo: 'IDIOMA', detalle: lang.toUpperCase() });
+      await logSheets('lead',   { chatId, nombre, username: cbUsername, idioma: lang, estado: 'NUEVO' });
       await sendMessage(chatId, getBienvenida(lang, nombre));
     }
     return;
@@ -158,6 +161,8 @@ app.post('/webhook', async (req, res) => {
   // /start o primera vez
   if (texto === '/start' || !user.visto) {
     user.visto = true;
+    await logSheets('evento', { chatId, nombre, tipo: 'INICIO', detalle: texto });
+    await logSheets('lead',   { chatId, nombre, username, idioma: lang, estado: 'NUEVO' });
     await sendSelector(chatId);
     return;
   }
@@ -172,6 +177,8 @@ app.post('/webhook', async (req, res) => {
   const outWords = { es: ['STOP','DETENER','NO MAS'], en: ['STOP','UNSUBSCRIBE'], pt: ['STOP','CANCELAR'] };
   if (outWords[lang].some(w => textoU.includes(w))) {
     user.optout = true;
+    await logSheets('optout',  { chatId, nombre, username, idioma: lang, motivo: texto });
+    await logSheets('evento',  { chatId, nombre, tipo: 'OPT-OUT', detalle: texto });
     const msgs  = { es: `Entendido ${nombre}! Te saque de mi lista. Escribe VOLVER cuando quieras.`, en: `Understood ${nombre}! Removed from my list. Write COME BACK anytime.`, pt: `Entendido ${nombre}! Removido da lista. Escreva VOLTAR quando quiser.` };
     await sendMessage(chatId, msgs[lang]);
     return;

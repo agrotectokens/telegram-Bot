@@ -61,6 +61,19 @@ async function answerCB(id) {
     .catch(e => console.error('answerCB error:', e.message));
 }
 
+
+// ── Google Sheets via Apps Script ────────────────────────
+async function logSheets(tipo, data) {
+  try {
+    await axios.post(SHEETS_URL, { tipo, ...data }, {
+      headers: { 'Content-Type': 'application/json' },
+      timeout: 5000
+    });
+  } catch(e) {
+    console.error('Sheets error:', e.message);
+  }
+}
+
 // ── Groq ─────────────────────────────────────────────────
 async function llamarGroq(lang, historial) {
   const msgs = [{ role: 'system', content: getPrompt(lang) }, ...historial.slice(-4)];
@@ -177,6 +190,8 @@ app.post('/webhook', async (req, res) => {
   if (user.historial.length > 8) user.historial = user.historial.slice(-8);
 
   await logSheet(chatId, nombre, lang, texto, respuesta);
+  await logSheets('conversacion', { chatId, nombre, username, idioma: lang, mensaje: texto, respuesta });
+  await logSheets('lead', { chatId, nombre, username, idioma: lang, estado: 'ACTIVO' });
   await sendMessage(chatId, respuesta);
 });
 

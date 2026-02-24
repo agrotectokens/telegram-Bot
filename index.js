@@ -7,6 +7,7 @@ app.use(express.json());
 const TELEGRAM_TOKEN = '7637448101:AAH1cv31WXt6-A0IrPcwC-KdKJap6D7jjh0';
 const GROQ_API_KEY   = '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';
 const SPREADSHEET_ID = '1NVvOOP3H3vAvE8uwGafXUnXoqMz-UCJtwLkk0rGTB5A';
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzs0r26P7kFoY1eMWyEmdQxXG5EIyzE22e4SLqlZldtPnN6-ZYKD2mRvW4ZK3yc7MLJig/exec';
 const TG_API        = `https://api.telegram.org/bot${TELEGRAM_TOKEN}`;
 
 // ── Memoria en RAM (simple, sin base de datos) ──────────

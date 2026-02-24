@@ -66,12 +66,15 @@ async function answerCB(id) {
 // ── Google Sheets via Apps Script ────────────────────────
 async function logSheets(tipo, data) {
   try {
-    await axios.post(SHEETS_URL, { tipo, ...data }, {
+    const payload = Object.assign({ tipo: tipo }, data);
+    console.log('[SHEETS] Enviando:', tipo, JSON.stringify(payload).substring(0, 100));
+    const resp = await axios.post(SHEETS_URL, payload, {
       headers: { 'Content-Type': 'application/json' },
-      timeout: 5000
+      timeout: 8000
     });
+    console.log('[SHEETS] Respuesta:', resp.status, resp.data);
   } catch(e) {
-    console.error('Sheets error:', e.message);
+    console.error('[SHEETS] Error:', e.message);
   }
 }
 

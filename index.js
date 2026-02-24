@@ -1,7 +1,5 @@
-const express    = require('express');
-const axios      = require('axios');
-const { GoogleSpreadsheet } = require('google-spreadsheet');
-const { JWT }    = require('google-auth-library');
+const express = require('express');
+const axios   = require('axios');
 
 const app  = express();
 app.use(express.json());
